@@ -32,6 +32,15 @@ Portales is a Cross-Bridge solution for fast wrapping assets. Portales long-term
 - All contribution must be submitted in the form of Pull Requests.
 - If a known bug is being submitted on a Pull Request, acknowledge it on the PR submission.
 - Wait for at least two revisions before merging.
+- Fork this Repo and work on your local branch, only open a PR when a feature is fully implemented.
+- Use [git-commit-msg-linter](https://www.npmjs.com/package/git-commit-msg-linter) to enforce Git Message Guidelines.
+- Use [standard](https://www.npmjs.com/package/standard) to enforce JavaScript Standard Style.
+
+_Standard usage:_
+
+```csh
+standard ./folder/targer-javascript-file.js --fix
+```
 
 
 
