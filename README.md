@@ -1,7 +1,6 @@
 <p align="center">
-  <img width=30% src="https://user-images.githubusercontent.com/78161484/167764348-c3f1059a-7aa9-4cae-97d4-65d4e004c7ad.png" alt="Portales Logo"/>
+  <img width=30% src="https://user-images.githubusercontent.com/78161484/168403279-b2b4dc15-1ef0-44ba-a90f-4abce9e0e156.png" alt="Portales Logo"/>
 </p>
-
 
 ### Portales by MetaMath 
 
