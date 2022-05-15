@@ -38,7 +38,7 @@ Portales is a Cross-Bridge solution for fast wrapping assets. Portales long-term
 _Standard usage:_
 
 ```csh
-standard ./folder/targer-javascript-file.js --fix
+standard ./folder/target-javascript-file.js --fix
 ```
 
 
