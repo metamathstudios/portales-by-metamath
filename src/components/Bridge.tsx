@@ -10,6 +10,8 @@ function Bridge() {
     setSelect(props)
     setActivate(true)
   }
+
+  const value = 9
   
   return (
     <div className="flex flex-col justify-start items-center">
@@ -24,27 +26,29 @@ function Bridge() {
       
       {select == 'transfer' ? 
       
-      <div className="text-gray-500 bg-button-gray rounded-lg pl-20 pr-20">
+      <div className="text-gray-500 bg-button-gray rounded-lg px-5 w-96">
         <div className='flex flex-row-reverse p-3'>
-          <img src={config} alt="Options" width={22} className='' />
+          <button>
+            <img src={config} alt="Options" width={22} className='' />
+          </button>
         </div>
-        <div className="">
-          <div className="flex flex-row p-2"><p className='pr-3 text-xs'>from</p><form><input className='bg-background rounded-md p-1 -my-1' type="text" /></form></div>
-          <div className="flex flex-row p-2"><form><input  placeholder='send' className='bg-background placeholder-gray-500 rounded-md p-2 px-7 text-xs' type="text" /></form></div>
+        <div className="flex-wrap	w-[100%]">
+          <div className="flex flex-row p-2 "><p className='pr-3 text-xs'>from</p><form className='w-[100%]'><input className='bg-background w-[40%] rounded-md p-2 -my-2' type="text" /></form></div>
+          <div className="flex flex-row p-2"><form className='w-[100%]'><input  placeholder={'Send:'} className='bg-background placeholder-gray-500 w-[100%] rounded-md p-2 text-xs' type="text" /></form></div>
         </div>
-        <div className="flex flex-row-reverse text-gray-500 underline underline-offset-1 text-sm"><button>max:</button></div>
-        <div className='flex flex-col justify-center items-center'>
-          <button className='p-4 rounded-lg my-3 hover:border-2 hover:border-button-blue bg-background'><img src="" alt="" /></button>
+        <div className='flex flex-row'>
+          <button className='justify-center items-center p-4 rounded-lg my-3 border-transparent border-2 hover:border-2 hover:border-button-blue bg-background'><img src="" alt="" /></button>
+          <div className="justify-end items-end text-gray-500 underline underline-offset-1 text-sm pr-2"><button>max:</button></div>
         </div>
-        <div className="flex flex-row p-2 text-xs"><p className='pr-3'>to</p><form><input className='bg-background rounded-md p-2 -my-1' type="text" /></form></div>
-        <div className="flex flex-row p-2"><form><input  placeholder='Receive (estimated): 0' className='bg-background placeholder-gray-500 rounded-md p-2 px-7 text-xs' type="text" /></form></div>
+        <div className="flex flex-row p-2 text-xs"><p className='pr-3'>to</p><form className='w-[100%]'><input className='bg-background w-[100%] rounded-md p-2 -my-1' type="text" /></form></div>
+        <div className="flex flex-row p-2"><form className='w-[100%]'><input placeholder='Receive (estimated): 0' className='bg-background w-[100%] placeholder-gray-500 rounded-md p-2 px-7 text-xs' type="text" /></form></div>
         <div className='flex flex-row justify-center pt-8 pb-4'><button className='py-5 px-20 rounded-md text-white bg-button-blue'>Connect Wallet</button></div>
       </div> 
       
       : 
       
       <div className="text-secondary-gray bg-button-gray rounded-lg pl-20 pr-20">
-      cadeado asset
+      Cadeado Asset
       </div>
     }
     </div>
