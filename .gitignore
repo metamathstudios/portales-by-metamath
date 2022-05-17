@@ -1,5 +1,9 @@
 portales-child/node_modules
 portales-child/build
+portales-child/.env
+portales-child/secrets.json
 portales-master/node_modules
 portales-master/build
+portales-master/.env
+portales-master/secrets.json
 node_modules
