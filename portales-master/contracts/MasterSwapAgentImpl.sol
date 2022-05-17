@@ -1,12 +1,11 @@
 pragma solidity 0.6.4;
 
 import "./interfaces/IERC20Query.sol";
-import "openzeppelin-solidity/contracts/proxy/Initializable.sol";
 import "openzeppelin-solidity/contracts/GSN/Context.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol";
 import "openzeppelin-solidity/contracts/utils/ReentrancyGuard.sol";
 
-contract MasterSwapAgentImpl is Context, Initializable, ReentrancyGuard{
+contract MasterSwapAgentImpl is Context, ReentrancyGuard{
 
     using SafeERC20 for IERC20;
 
@@ -18,10 +17,12 @@ contract MasterSwapAgentImpl is Context, Initializable, ReentrancyGuard{
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
     event BridgePairRegister(address indexed sponsor,address indexed masterErc20Addr, string name, string symbol, uint8 decimals);
-    event SwapStarted(address indexed masterErc20Addr, address indexed toAddress, uint256 amount, uint256 feeAmount, uint32 targetChainId);
+    event SwapStarted(address indexed masterErc20Addr, address indexed fromAddress, address indexed toAddress, uint256 amount, uint256 feeAmount, uint32 targetChainId);
     event SwapFilled(address indexed masterErc20Addr, bytes32 indexed childTxHash, address indexed toAddress, uint256 amount, uint32 fromChainID);
 
-    constructor() public {
+    constructor(uint256 fee, address payable ownerAddr) public {
+        swapFee = fee;
+        owner = ownerAddr;
     }
 
     /**
@@ -46,11 +47,6 @@ contract MasterSwapAgentImpl is Context, Initializable, ReentrancyGuard{
         require(_toRemove != address(0), "Authorizable: new authority is the zero address");
         require(_toRemove != msg.sender);
         authorized[_toRemove] = false;
-    }
-
-    function initialize(uint256 fee, address payable ownerAddr) public initializer {
-        swapFee = fee;
-        owner = ownerAddr;
     }
 
     modifier notContract() {
@@ -130,7 +126,7 @@ contract MasterSwapAgentImpl is Context, Initializable, ReentrancyGuard{
             owner.transfer(msg.value);
         }
 
-        emit SwapStarted(masterErc20Addr, toAddr, amount, msg.value, targetChainId);
+        emit SwapStarted(masterErc20Addr, msg.sender, toAddr, amount, msg.value, targetChainId);
         return true;
     }
 }

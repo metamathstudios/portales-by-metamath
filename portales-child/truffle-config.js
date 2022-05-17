@@ -63,7 +63,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           mnemonic,
-          `https://matic-mumbai.chainstacklabs.com/`
+          `https://matic-mumbai.chainstacklabs.com`
         ),
       network_id: 80001,
       confirmations: 2,
