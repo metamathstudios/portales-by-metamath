@@ -1,5 +1,5 @@
-import logo from '../assets/Logo.png'
-import history from '../assets/history.png'
+import logo from '../assets/png/logo.png'
+import history from '../assets/svg/history.svg'
 
 function Navbar() {
   return (
