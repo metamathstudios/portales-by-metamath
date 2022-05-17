@@ -4,11 +4,10 @@ import "./interfaces/ISwap.sol";
 import "./erc20/ERC20UpgradeableProxy.sol";
 import './interfaces/IProxyInitialize.sol';
 import "openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol";
-import "openzeppelin-solidity/contracts/proxy/Initializable.sol";
 import "openzeppelin-solidity/contracts/GSN/Context.sol";
 import "openzeppelin-solidity/contracts/utils/ReentrancyGuard.sol";
 
-contract  ChildSwapAgentImpl is Context, Initializable, ReentrancyGuard {
+contract  ChildSwapAgentImpl is Context, ReentrancyGuard {
 
     using SafeERC20 for IERC20;
 
@@ -27,7 +26,11 @@ contract  ChildSwapAgentImpl is Context, Initializable, ReentrancyGuard {
     event SwapStarted(address indexed childErc20Addr, address indexed masterErc20Addr, address indexed toAddress, uint256 amount, uint256 feeAmount, uint32 targetChainId);
     event SwapFilled(address indexed childErc20Addr, bytes32 indexed masterTxHash, address indexed toAddress, uint256 amount, uint32 fromChainID);
 
-    constructor() public {
+    constructor(address childErc20Impl, uint256 fee, address payable ownerAddr, address childErc20ProxyAdminAddr) public {
+        childErc20Implementation = childErc20Impl;
+        swapFee = fee;
+        owner = ownerAddr;
+        childErc20ProxyAdmin = childErc20ProxyAdminAddr;
     }
 
     /**
@@ -58,15 +61,6 @@ contract  ChildSwapAgentImpl is Context, Initializable, ReentrancyGuard {
         require(!isContract(msg.sender), "PORTALES: contract is not allowed to swap");
         require(msg.sender == tx.origin, "PORTALES: no proxy contract is allowed");
        _;
-    }
-
-
-
-    function initialize(address childErc20Impl, uint256 fee, address payable ownerAddr, address childErc20ProxyAdminAddr) public initializer {
-        childErc20Implementation = childErc20Impl;
-        swapFee = fee;
-        owner = ownerAddr;
-        childErc20ProxyAdmin = childErc20ProxyAdminAddr;
     }
 
     function isContract(address addr) internal view returns (bool) {
