@@ -1,15 +1,13 @@
-pragma solidity 0.6.4;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.10;
 
+import "./erc20/ERC20TokenImplementation.sol";
 import "./interfaces/ISwap.sol";
-import "./erc20/ERC20UpgradeableProxy.sol";
-import './interfaces/IProxyInitialize.sol';
-import "openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol";
-import "openzeppelin-solidity/contracts/GSN/Context.sol";
-import "openzeppelin-solidity/contracts/utils/ReentrancyGuard.sol";
+import "./interfaces/IProxyInitialize.sol";
+import "@openzeppelin/contracts/utils/Context.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract  ChildSwapAgentImpl is Context, ReentrancyGuard {
-
-    using SafeERC20 for IERC20;
 
     mapping(address => address) public swapMappingMaster2Child;
     mapping(address => address) public swapMappingChild2Master;
@@ -23,10 +21,10 @@ contract  ChildSwapAgentImpl is Context, ReentrancyGuard {
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
     event BridgePairRegister(bytes32 indexed masterRegisterTxHash, address indexed child20Addr, address indexed master20Addr, string symbol, string name, uint8 decimals);
-    event SwapStarted(address indexed childErc20Addr, address indexed masterErc20Addr, address indexed toAddress, uint256 amount, uint256 feeAmount, uint32 targetChainId);
+    event SwapStarted(address indexed masterErc20Addr, address indexed fromAddress, address indexed toAddress, uint256 amount, uint256 feeAmount, uint32 targetChainId);
     event SwapFilled(address indexed childErc20Addr, bytes32 indexed masterTxHash, address indexed toAddress, uint256 amount, uint32 fromChainID);
 
-    constructor(address childErc20Impl, uint256 fee, address payable ownerAddr, address childErc20ProxyAdminAddr) public {
+    constructor(address childErc20Impl, uint256 fee, address payable ownerAddr, address childErc20ProxyAdminAddr) {
         childErc20Implementation = childErc20Impl;
         swapFee = fee;
         owner = ownerAddr;
@@ -78,7 +76,7 @@ contract  ChildSwapAgentImpl is Context, ReentrancyGuard {
     */
     function renounceOwnership() public onlyOwner {
         emit OwnershipTransferred(owner, address(0));
-        owner = address(0);
+        owner = payable(address(0));
     }
 
     /**
@@ -104,9 +102,9 @@ contract  ChildSwapAgentImpl is Context, ReentrancyGuard {
     function registerBridgePair(bytes32 masterTxHash, address masterErc20Addr, string calldata name, string calldata symbol, uint8 decimals) onlyAuthorized external returns (address) {
         require(swapMappingMaster2Child[masterErc20Addr] == address(0x0), "PORTALES: duplicated swap pair");
 
-        ERC20UpgradeableProxy proxyToken = new ERC20UpgradeableProxy(childErc20Implementation, childErc20ProxyAdmin, "");
+        ERC20TokenImplementation proxyToken = new ERC20TokenImplementation();
         IProxyInitialize token = IProxyInitialize(address(proxyToken));
-        token.initialize(name, symbol, decimals, 0, true, address(this));
+        token.initialize(name, symbol, decimals, 0, true);
 
         swapMappingMaster2Child[masterErc20Addr] = address(token);
         swapMappingChild2Master[address(token)] = masterErc20Addr;
@@ -136,13 +134,13 @@ contract  ChildSwapAgentImpl is Context, ReentrancyGuard {
         require(masterErc20Addr != address(0x0), "PORTALES: no swap pair for this token");
         require(msg.value == swapFee, "PORTALES: swap fee not equal");
 
-        IERC20(childTokenAddr).safeTransferFrom(msg.sender, address(this), amount);
+        ERC20TokenImplementation(childTokenAddr).transferFrom(msg.sender, address(this), amount);
         ISwap(childTokenAddr).burn(amount);
         if (msg.value != 0) {
             owner.transfer(msg.value);
         }
 
-        emit SwapStarted(childTokenAddr, masterErc20Addr, targetAddr, amount, msg.value, targetChainId);
+        emit SwapStarted(masterErc20Addr, msg.sender, targetAddr, amount, msg.value, targetChainId);
         return true;
     }
 }

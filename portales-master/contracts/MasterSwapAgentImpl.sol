@@ -1,9 +1,10 @@
-pragma solidity 0.6.4;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.10;
 
 import "./interfaces/IERC20Query.sol";
-import "openzeppelin-solidity/contracts/GSN/Context.sol";
-import "openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol";
-import "openzeppelin-solidity/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/Context.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract MasterSwapAgentImpl is Context, ReentrancyGuard{
 
@@ -20,7 +21,7 @@ contract MasterSwapAgentImpl is Context, ReentrancyGuard{
     event SwapStarted(address indexed masterErc20Addr, address indexed fromAddress, address indexed toAddress, uint256 amount, uint256 feeAmount, uint32 targetChainId);
     event SwapFilled(address indexed masterErc20Addr, bytes32 indexed childTxHash, address indexed toAddress, uint256 amount, uint32 fromChainID);
 
-    constructor(uint256 fee, address payable ownerAddr) public {
+    constructor(uint256 fee, address payable ownerAddr) {
         swapFee = fee;
         owner = ownerAddr;
     }
@@ -70,7 +71,7 @@ contract MasterSwapAgentImpl is Context, ReentrancyGuard{
         */
     function renounceOwnership() public onlyOwner {
         emit OwnershipTransferred(owner, address(0));
-        owner = address(0);
+        owner = payable(address(0));
     }
 
     /**
