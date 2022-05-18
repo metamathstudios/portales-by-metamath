@@ -1,21 +1,22 @@
-import { useState } from 'react'
-
-import TransLiqSwitcher from './TransLiqSwitcher'
-
 import config from '../assets/png/config.png'
 import arrows from '../assets/svg/changeArrows.svg'
+import SliTol from './SliTol'
+import { useState } from 'react'
+
 
 function Bridge() {
-  
+  const [openComponents, setOpenComponents] = useState(false)
+
+  function handleOpen(): any {
+    setOpenComponents(oldOpenComponent => !oldOpenComponent)
+  }
+
   return (
-    <div className="flex flex-col justify-start items-center">
-      <TransLiqSwitcher />
-      
-      {select == 'transfer' ? 
-      
+    <>
+    <div className="flex flex-col justify-start items-center">     
       <div className="text-gray-400 bg-button-gray rounded-xl border-[1px] border-secondary-gray px-5 w-96">
         <div className='flex flex-row-reverse pb-[5px] pt-5 py-6 pr-2'>
-          <button>
+          <button onClick={handleOpen}>
             <img src={config} alt="Options" width={25} className='' />
           </button>
         </div>
@@ -30,15 +31,11 @@ function Bridge() {
         <div className="flex flex-row p-2 text-xs"><p className='pr-6 py-2'>To</p><form className='w-[100%]'><input className='bg-background w-[45%] rounded-md p-2 py-3 -my-1' type="text" /></form></div>
         <div className="flex flex-row p-2"><form className='w-[100%]'><input placeholder='Receive (estimated): 0' className='bg-background w-[100%] placeholder-gray-400 rounded-md p-2 py-3 px-7 text-xs' type="text" /></form></div>
         <div className='flex flex-row justify-center pt-8 pb-4'><button className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'>Connect Wallet</button></div>
-      </div> 
-      
-      : 
-      
-      <div className="text-secondary-gray bg-button-gray rounded-lg pl-20 pr-20">
-      Cadeado Asset
       </div>
-    }
     </div>
+
+    { openComponents && ( <SliTol />)}
+    </>
   )
 }
 

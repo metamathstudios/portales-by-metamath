@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function TransLiqSwitcher(props:string) {
+function TransLiqSwitcher(props:any) {
   
   const [select, setSelect] = useState('transfer')
   const [activate, setActivate] = useState(true)
