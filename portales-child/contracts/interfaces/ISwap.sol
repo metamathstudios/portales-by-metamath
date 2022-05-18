@@ -1,4 +1,5 @@
-pragma solidity 0.6.4;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.10;
 
 interface ISwap {
     /**
@@ -16,4 +17,6 @@ interface ISwap {
     * @dev Burn `amount` tokens and decreasing the total supply.
     */
     function burn(uint256 amount) external returns (bool);
+
+    
 }

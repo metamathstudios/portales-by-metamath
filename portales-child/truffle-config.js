@@ -70,6 +70,19 @@ module.exports = {
       timeoutBlocks: 800,
       skipDryRun: true,
     },
+
+    moonbase: {
+      provider: () =>
+        new HDWalletProvider(
+          mnemonic,
+          `https://moonbase-alpha.blastapi.io/${process.env.BLAST_API_ID}`
+        ),
+      network_id: 1287,
+      confirmations: 2,
+      timeoutBlocks: 800,
+      skipDryRun: true,
+    },
+    
   },
 
   // Set default mocha options here, use special reporters etc.
@@ -80,11 +93,12 @@ module.exports = {
   api_keys: {
     polygonscan: process.env.MATIC_API_KEY,
     etherscan: process.env.ETHER_API_KEY,
+    moonscan: process.env.MOONBEAM_API_KEY
   },
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.6.4",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.8.10",    // Fetch exact version from solc-bin (default: truffle's version)
       docker: false,        // Use "0.5.1" you've installed locally with docker (default: false)
       settings: {          // See the solidity docs for advice about optimization and evmVersion
         optimizer: {
