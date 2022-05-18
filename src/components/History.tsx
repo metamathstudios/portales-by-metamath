@@ -21,7 +21,7 @@ function History() {
         </div>
         <div className="flex flex-col justify-start items-center text-sm">
           <div className='w-40 h-5 pl-[52px] bg-background text-white rounded-xl font-bold'>History</div>
-          <div className="flex h-12 px-2 bg-button-gray text-white rounded-2xl items-center bg-background">
+          <div className="flex h-12 px-2 text-white rounded-2xl items-center bg-background">
             <button className={select === 'transfer' ? 'bg-button-blue rounded-xl py-2 px-6 ease-linear font-bold duration-300' : 'text-white rounded-xl font-bold py-2 px-6 ease-linear duration-300'} onClick={() => handleButton('transfer')}>
               Transfer
             </button>
@@ -43,8 +43,9 @@ function History() {
 
         :
 
-        <div>
-
+        <div className='flex flex-col items-center pt-4 w-[430px] h-[350px] bg-background rounded-xl'>
+          <div className='py-2 w-[90%] bg-button-gray rounded-lg' />
+          <p className='pt-32 text-sm font-bold'>No History</p>
         </div>
         }
       </div> 
