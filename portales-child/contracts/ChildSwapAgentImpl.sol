@@ -104,7 +104,7 @@ contract  ChildSwapAgentImpl is Context, ReentrancyGuard {
 
         ERC20TokenImplementation proxyToken = new ERC20TokenImplementation();
         IProxyInitialize token = IProxyInitialize(address(proxyToken));
-        token.initialize(name, symbol, decimals, 0, true);
+        token.initialize(name, symbol, decimals, 0, true, childErc20ProxyAdmin);
 
         swapMappingMaster2Child[masterErc20Addr] = address(token);
         swapMappingChild2Master[address(token)] = masterErc20Addr;
