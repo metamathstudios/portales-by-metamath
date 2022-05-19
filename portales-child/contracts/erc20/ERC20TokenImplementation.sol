@@ -65,12 +65,14 @@ contract ERC20TokenImplementation is
         string memory symbol_,
         uint8 decimals_,
         uint256 totalSupply_,
-        bool mintable_
+        bool mintable_,
+        address owner_
     ) public initializer {
         _name = name_;
         _symbol = symbol_;
         _decimals = decimals_;
         _mintable = mintable_;
+        transferOwnership(owner_);
         _mint(owner(), totalSupply_);
     }
 
