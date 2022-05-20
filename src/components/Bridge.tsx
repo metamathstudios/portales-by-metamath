@@ -36,8 +36,8 @@ function Bridge() {
   return (
     <>
     <div className="flex flex-col justify-start items-center">
-      <div className="flex h-12 px-2 bg-button-grey text-white rounded-3xl -my-16 mb-6 items-center bg-button-gray">
-        <button className={select === 'transfer' ? 'bg-button-blue rounded-xl py-3 px-8 ease-linear duration-300' : 'text-white rounded-xl py-3 px-8 ease-linear duration-300'} onClick={() => handleButton('transfer')}>
+      <div className="flex h-12 px-2 bg-button-grey text-white rounded-2xl -my-16 mb-6 items-center bg-button-gray xl:my-20">
+        <button className={select === 'transfer' ? 'bg-button-blue rounded-xl py-2 px-8 ease-linear duration-300' : 'text-white rounded-xl py-3 px-8 ease-linear duration-300'} onClick={() => handleButton('transfer')}>
           Transfer
         </button>
         <button className={select === 'liquidity' ? 'bg-button-blue rounded-xl py-3 px-8 ease-linear duration-300' : 'text-white rounded-xl py-3 px-8 ease-linear duration-300'} onClick={() => handleButton('liquidity')}>
