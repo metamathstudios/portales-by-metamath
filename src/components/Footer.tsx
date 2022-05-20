@@ -10,25 +10,35 @@ function Footer() {
   return (
     <div className='flex flex-col items-center 2xl:mt-[3%]'>
       <div className='flex flex-row justify-center pt-5 space-x-4 w-full'>
+        <button>
         <div className='p-4 bg-button-gray rounded-xl'>
           <img src={home} alt="Home" width={15} />
         </div>
+        </button>
 
+        <button>
         <div className='p-4 bg-button-gray rounded-xl'>
           <img src={twitter} alt="Twitter" width={15} />
         </div> 
-          
+        </button>
+
+        <button>
         <div className='p-4 bg-button-gray rounded-xl'>
           <img src={discord} alt="Discord" width={15} />
         </div>
+        </button>
 
+        <button>
         <div className='p-4 bg-button-gray rounded-xl'>
           <img src={linkedin} alt="LinkedIn" width={15} />
         </div> 
+        </button>
 
+        <button>
         <div className='p-3 bg-button-gray rounded-xl'>
           <img className='mt-[25%]' src={medium} alt="Medium" width={20} />
         </div>
+        </button>
       </div>
       <div className='pt-4 text-gray-200 text-sm'> Developed By</div>
       <div className='pt-3'><img src={metamath} width={140} /></div>
