@@ -23,7 +23,7 @@ function History({...props}:HistoryProps) {
             <button><img src={backArrow} alt="back" width={20}/></button>
           </div>
           <div className='flex flex-col items-center pt-8 w-[430px] h-[350px] bg-background rounded-xl'>
-            <div className='py-2 w-[90%] bg-button-gray rounded-lg' />
+            <div className='py-3 w-[90%] bg-button-gray rounded-lg text-[10px] px-5'><button>0xa5c4a23eed45247d149e728a52681254fe4f521ebbfa4cd989f7e6956ba2c301</button></div>
             <p className='pt-32 text-sm font-bold'>No History</p>
           </div>
         </div> 

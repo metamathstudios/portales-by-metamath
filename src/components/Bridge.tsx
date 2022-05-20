@@ -9,6 +9,8 @@ import inputArrow from '../assets/svg/arrow.svg'
 import ethereum from '../assets/chains/ethereum.svg'
 import moonriver from '../assets/chains/moonriver.svg'
 
+import airdrop from '../assets/svg/drop2.svg'
+
 function Bridge() {
   const [select, setSelect] = useState('transfer')
   const [activate, setActivate] = useState(true)
@@ -63,7 +65,11 @@ function Bridge() {
 
       :
 
-      <div>Teste</div>
+      <div className='flex flex-col items-center w-96 bg-button-gray border-[1px] border-secondary-gray rounded-xl'>
+        <img className='pt-10' src={airdrop} width={100} />
+        <div className="w-[90%] h-14 bg-secondary-gray rounded-md mt-10 text-gray-200 text-sm"><p className='p-2 pl-4'>You can claim 10 Port per wallet every 24 hours.<br />Port faucet is available only on Rinkeby Testnet.</p></div>
+        <button className='w-[90%] py-4 pr-7 pl-7 mt-12 mb-6 bg-button-blue rounded-md text-white text-lg font-lalezar'>Receive 10 Port</button>
+      </div>
       }
     </div>
 
