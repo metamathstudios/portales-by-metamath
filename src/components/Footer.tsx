@@ -8,7 +8,7 @@ import metamath from '../assets/logo/meta.svg'
 
 function Footer() {
   return (
-    <div className='flex flex-col items-center xl:mt-[6%]'>
+    <div className='flex flex-col items-center xl:mt-[5%]'>
       <div className='flex flex-row justify-center pt-5 space-x-4 w-full'>
         <div className='p-4 bg-button-gray rounded-xl'>
           <img src={home} alt="Home" width={15} />
