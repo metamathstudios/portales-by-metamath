@@ -1,4 +1,6 @@
 import { useState, useContext } from 'react'
+import { NotificationManager } from 'react-notifications'
+import { Web3ModalContext } from "../contexts/Web3ModalProvider"
 
 import FromSearchChain from './FromSearchChain'
 import SendSearchChain from './SendSearchChain'
@@ -13,6 +15,7 @@ import airdrop from '../assets/svg/drop2.svg'
 import { Context } from '../contexts/useContext'
 
 function Bridge() {
+  const { connect, account } = useContext(Web3ModalContext);
   const [select, setSelect] = useState('transfer')
   const [activate, setActivate] = useState(true)
   const contextChain = useContext(Context)
@@ -20,6 +23,14 @@ function Bridge() {
   function handleButton(props:any) {
     setSelect(props)
     setActivate(true)
+  }
+
+  const handleFaucet = async () => {
+    if(!account) {
+      NotificationManager.error("Please Connect to MetaMask First!")
+      return
+    }
+    console.log("Fauceted!")
   }
 
   const [openBridgeFromSearchChain, setopenBridgeFromSearchChain] = useState(false)
@@ -80,7 +91,7 @@ function Bridge() {
       <div className='flex flex-col items-center w-96 bg-button-gray border-[1px] border-secondary-gray rounded-xl'>
         <img className='pt-10' src={airdrop} width={100} />
         <div className="w-[90%] h-14 bg-secondary-gray rounded-md mt-10 text-gray-200 text-sm"><p className='p-2 pl-4'>You can claim 10 Port per wallet every 24 hours.<br />Port faucet is available only on Rinkeby Testnet.</p></div>
-        <button className='w-[90%] py-4 pr-7 pl-7 mt-12 mb-6 bg-button-blue rounded-md text-white text-lg font-lalezar'>Receive 10 Port</button>
+        <button onClick={handleFaucet} className='w-[90%] py-4 pr-7 pl-7 mt-12 mb-6 bg-button-blue rounded-md text-white text-lg font-lalezar'>Receive 10 Port</button>
       </div>
       }
     </div>

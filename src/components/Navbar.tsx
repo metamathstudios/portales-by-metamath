@@ -27,7 +27,7 @@ function Navbar({handleOpen}:any) {
         {!account? (<button onClick={handleConnectWallet} className='w-[190px] py-3 pr-8 pl-8 bg-button-blue rounded-xl text-white text-md'>Connect Wallet </button>
         ) :
         (<button onClick={handleDisconnectWallet} className='w-[190px] py-3 pr-8 pl-8 bg-button-blue rounded-xl text-white text-md'>{ellipseAddress(account)} </button>)} 
-        <button className='py-3 px-4 bg-button-gray rounded-xl font-black text-white text-lg tracking-widest'>...</button>
+        {/* <button className='py-3 px-4 bg-button-gray rounded-xl font-black text-white text-lg tracking-widest'>...</button> */}
       </div>
     </div>
   )

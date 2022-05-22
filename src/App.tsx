@@ -1,3 +1,5 @@
+import 'react-notifications/lib/notifications.css';
+
 import { useState } from 'react'
 
 import Navbar from './components/Navbar'
@@ -6,6 +8,7 @@ import History from './components/History'
 import Footer from './components/Footer'
 import ContextProvider from './contexts/useContext'
 import Web3ModalProvider from "./contexts/Web3ModalProvider"
+import { NotificationContainer } from 'react-notifications'
 
 function App() {
   const [openComponents, setOpenComponents] = useState(false)
@@ -26,6 +29,7 @@ function App() {
         {(<History openHistory={openComponents} handleClose={handleClose} />)}
       </div>
       <Footer />
+      <NotificationContainer />
     </Providers>
   )
 }
