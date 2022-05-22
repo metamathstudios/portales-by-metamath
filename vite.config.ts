@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -5,3 +6,21 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()]
 })
+=======
+import react from '@vitejs/plugin-react'
+import { defineConfig, UserConfigExport, ConfigEnv } from 'vite'
+
+export default {
+  resolve: {
+    alias: {
+      process: "process/browser",
+      stream: "stream-browserify",
+      zlib: "browserify-zlib",
+      util: 'util'
+    }
+  },
+  plugins: [
+    react(),
+  ]
+}
+>>>>>>> dev-frontend
