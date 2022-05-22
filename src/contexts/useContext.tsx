@@ -27,9 +27,11 @@ function ContextProvider({children}: ContextProviderProps) {
   function fromUpdateChain(value:string) {
     setFromChain(value)
   }
+  
   function sendUpdateChain(value:string) {
     setSendChain(value)
   }
+
   function toUpdateChain(value:string) {
     setToChain(value)
   }
