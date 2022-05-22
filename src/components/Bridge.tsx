@@ -10,7 +10,7 @@ import ethereum from '../assets/chains/ethereum.svg'
 import moonriver from '../assets/chains/moonriver.svg'
 import airdrop from '../assets/svg/drop2.svg'
 
-import { Context } from '../hooks/useContext'
+import { Context } from '../contexts/useContext'
 
 function Bridge() {
   const [select, setSelect] = useState('transfer')

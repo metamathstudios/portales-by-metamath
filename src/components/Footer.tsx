@@ -18,6 +18,12 @@ function Footer() {
 
         <button>
         <div className='p-4 bg-button-gray rounded-xl'>
+          <img src={linkedin} alt="LinkedIn" width={15} />
+        </div> 
+        </button>
+
+        <button>
+        <div className='p-4 bg-button-gray rounded-xl'>
           <img src={twitter} alt="Twitter" width={15} />
         </div> 
         </button>
@@ -28,17 +34,6 @@ function Footer() {
         </div>
         </button>
 
-        <button>
-        <div className='p-4 bg-button-gray rounded-xl'>
-          <img src={linkedin} alt="LinkedIn" width={15} />
-        </div> 
-        </button>
-
-        <button>
-        <div className='p-3 bg-button-gray rounded-xl'>
-          <img className='mt-[25%]' src={medium} alt="Medium" width={20} />
-        </div>
-        </button>
       </div>
       <div className='pt-4 text-gray-200 text-sm'> Developed By</div>
       <div className='pt-3'><img src={metamath} width={140} /></div>

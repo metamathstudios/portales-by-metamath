@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { Context } from '../hooks/useContext'
+import { Context } from '../contexts/useContext'
 
 import close from '../assets/svg/close.svg'
 import ethereum from '../assets/chains/ethereum.svg'
