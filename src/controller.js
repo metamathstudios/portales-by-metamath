@@ -6,9 +6,7 @@ class Controller {
 
     try {
       if(key) {
-        await db.start();
         const data = await db.getValue(key);
-        await db.stop();
         res.status(200).json({ status: data.status });
       } else {
         res.status(400).json({ message: 'Invalid key' });
@@ -24,9 +22,7 @@ class Controller {
 
     try {
       if(key) {
-        await db.start();
         const data = await db.getValue(key);
-        await db.stop();
         res.status(200).json({ from: data.from });
       } else {
         res.status(400).json({ message: 'Invalid key' });
@@ -42,9 +38,7 @@ class Controller {
 
     try {
       if(key) {
-        await db.start();
         const data = await db.getValue(key);
-        await db.stop();
         res.status(200).json({ to: data.to });
       } else {
         res.status(400).json({ message: 'Invalid key' });
@@ -60,9 +54,7 @@ class Controller {
 
     try {
       if(key) {
-        await db.start();
         const data = await db.getValue(key);
-        await db.stop();
         res.status(200).json({ amount: data.amount });
       } else {
         res.status(400).json({ message: 'Invalid key' });
@@ -78,9 +70,7 @@ class Controller {
 
     try {
       if(key) {
-        await db.start();
         const data = await db.getValue(key);
-        await db.stop();
         res.status(200).json({ origin: data.origin });
       } else {
         res.status(400).json({ message: 'Invalid key' });
@@ -96,9 +86,7 @@ class Controller {
 
     try {
       if(key) {
-        await db.start();
         const data = await db.getValue(key);
-        await db.stop();
         res.status(200).json({ target: data.target });
       } else {
         res.status(400).json({ message: 'Invalid key' });
@@ -114,9 +102,7 @@ class Controller {
 
     try {
       if(account) {
-        await db.start();
         const data = await db.getAccountTxs(account);
-        await db.stop();
         res.status(200).json({ txs: data });
       } else {
         res.status(400).json({ message: 'Invalid key' });
