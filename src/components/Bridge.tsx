@@ -15,7 +15,7 @@ import { Context } from '../hooks/useContext'
 function Bridge() {
   const [select, setSelect] = useState('transfer')
   const [activate, setActivate] = useState(true)
-  const { chain } = useContext(Context)
+  const contextChain = useContext(Context)
 
   function handleButton(props:any) {
     setSelect(props)
@@ -63,14 +63,14 @@ function Bridge() {
 
       <div className="text-gray-200 bg-button-gray rounded-xl border-[1px] border-secondary-gray px-5 w-96">
         <div className="flex-wrap	w-[100%] pt-4">
-          <div className="flex flex-row p-2 "><p className='pr-3 pt-2 text-xs'>From</p><button onClick={handleBridgeFromSearchChain} className='w-[40%] bg-background rounded-md py-2'><div className='flex justify-between px-2'><img className='' src={chain === 'ethereum' ? ethereum : moonriver} width={25} alt='' /><img src={inputArrow} alt='' width={12} /></div></button></div>
-          <div className="flex flex-row p-2"><input  placeholder={'Send: 0'} className='bg-background placeholder-gray-200 w-[100%] rounded-md p-2 py-3 text-xs' type="text" /><button onClick={handleBridgeSendSearchChain} className='absolute mt-2 xl:left-[58%] lg:left-[58%] 2xl:left-[55.7%] bg-background rounded-md'><div className='flex justify-between space-x-2'><img className='' src={ethereum} width={25} alt='' /><img src={inputArrow} alt='' width={12} /></div></button></div>
+          <div className="flex flex-row p-2 text-sm"><p className='pr-3 pt-2 text-xs'>From</p><button onClick={handleBridgeFromSearchChain} className='w-[40%] bg-background rounded-md py-2'><div className='flex justify-between px-2'><img className='' src={contextChain.fromChain === 'ethereum' ? ethereum : moonriver} width={25} alt='' />{contextChain.fromChain === 'ethereum' ? 'Ethereum' : 'Moonriver'}<img src={inputArrow} alt='' width={12} /></div></button></div>
+          <div className="flex flex-row p-2"><input  placeholder={'Send: 0'} className='bg-background placeholder-gray-200 w-[100%] rounded-md p-2 py-3 text-xs' type="text" /><button onClick={handleBridgeSendSearchChain} className='absolute mt-2 xl:left-[52%] lg:left-[60%] 2xl:left-[55.7%] bg-background rounded-md'><div className='flex justify-between text-sm space-x-2'>{contextChain.sendChain === 'ethereum' ? 'Ethereum' : 'Moonriver'}<img className='ml-2' src={contextChain.sendChain === 'ethereum' ? ethereum : moonriver} width={25} alt='' /><img src={inputArrow} alt='' width={12} /></div></button></div>
         </div>
         <div className='flex flex-row justify-between '>
           <div className='p-5'> </div> <button className='self-center rounded-lg my-3 py-3 px-1 border-transparent border-2 hover:border-2 hover:border-button-blue bg-background'><img src={arrows} alt="arrows" width={23} /></button>
           <div className="text-gray-200 text-sm pr-2"><button><p className='underline underline-offset-1'>Max: 0</p></button></div>
         </div>
-        <div className="flex flex-row p-2"><p className='pr-7 pt-2 text-xs'>To</p><button onClick={handleBridgeToSearchChain} className='w-[40%] bg-background rounded-md py-2'><div className='flex justify-between px-2'><img className='' src={ethereum} width={25} alt='' /><img src={inputArrow} alt='' width={12} /></div></button></div>
+        <div className="flex flex-row p-2 text-sm"><p className='pr-7 pt-2 text-xs'>To</p><button onClick={handleBridgeToSearchChain} className='w-[40%] bg-background rounded-md py-2'><div className='flex justify-between px-2'><img className='' src={contextChain.toChain === 'ethereum' ? ethereum : moonriver} width={25} alt='' />{contextChain.toChain === 'ethereum' ? 'Ethereum' : 'Moonriver'}<img src={inputArrow} alt='' width={12} /></div></button></div>
         <div className="flex flex-row p-2"><input placeholder='Receive (estimated): 0' className='bg-background w-[100%] placeholder-gray-200 rounded-md p-2 py-3 px-2 text-xs' type="text" /></div>
         <div className='flex flex-row justify-center pt-4 pb-4'><button className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'>Connect Wallet</button></div>
       </div>
