@@ -32,7 +32,7 @@ function Navbar({handleOpen}:any) {
         <button onClick={() => handleOpen()} className='py-3 pr-6 pl-3 bg-button-gray rounded-xl text-white text-md flex flex-row'><img className='mr-1' width='25.6' height='26.2'  src={history} alt="history" />History</button>
         {!account? (<button onClick={handleConnectWallet} className='w-[190px] py-3 pr-8 pl-8 bg-button-blue rounded-xl text-white text-md'>Connect Wallet </button>
         ) :
-        (<button onClick={handleDisconnectWallet} className='w-[190px] py-3 pr-8 pl-8 bg-button-blue rounded-xl text-white text-md'>{(ellipseAddress(account)) } </button>)} 
+        (<button className='w-[190px] py-3 pr-8 pl-8 bg-button-blue rounded-xl text-white text-md'>{(ellipseAddress(account)) } </button>)} 
         {/* <button className='py-3 px-4 bg-button-gray rounded-xl font-black text-white text-lg tracking-widest'>...</button> */}
       </div>
     </div>

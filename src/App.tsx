@@ -7,7 +7,8 @@ import Bridge from './components/Bridge'
 import History from './components/History'
 import Footer from './components/Footer'
 import ContextProvider from './contexts/useContext'
-import Web3ModalProvider from "./contexts/Web3ModalProvider"
+import Web3ModalProvider from './contexts/Web3ModalProvider'
+import Web3WrapperProvider from './contexts/Web3WrapperProvider'
 import { NotificationContainer } from 'react-notifications'
 
 function App() {
@@ -37,9 +38,11 @@ function App() {
 const Providers = (props: any) => {
   return (
     <Web3ModalProvider>
-      <ContextProvider>
-        {props.children}
-      </ContextProvider>
+      <Web3WrapperProvider>
+        <ContextProvider>
+          {props.children}
+        </ContextProvider>
+      </Web3WrapperProvider>
     </Web3ModalProvider>
   )
 }
