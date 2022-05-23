@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useContext } from 'react'
 
 import close from '../assets/svg/close.svg'
 import backArrow from '../assets/svg/back.svg'
 import Transactions from './Transactions'
 import axios from 'axios'
 import { API_URL } from '../config'
+import { Web3ModalContext } from '../contexts/Web3ModalProvider'
 
 type HistoryProps = {
   openHistory:boolean,
@@ -18,7 +19,8 @@ function History( {...props}: HistoryProps) {
   const [data, setData] = useState([]);
   
   const fetch = useCallback(async () => {
-    const account = "0xd9bca352c1466dAb438b05069C97C520445d68fD";  // TODO: Alterar id da carteira
+    const { account } = useContext(Web3ModalContext)
+    //const account = "0xd9bca352c1466dAb438b05069C97C520445d68fD";
 
     setFetched(false)
     

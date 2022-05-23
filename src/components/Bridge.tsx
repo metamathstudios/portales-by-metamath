@@ -4,6 +4,7 @@ import { Web3ModalContext } from '../contexts/Web3ModalProvider'
 import { supportedChains, networkNames, chainIdList } from '../blockchain/constants'
 import { Web3WrapperContext } from '../contexts/Web3WrapperProvider'
 import { ERC20Context } from '../contexts/ERC20Provider'
+import { MasterAgentContext } from '../contexts/MasterAgentProvider'
 import { BntoNum } from '../blockchain/utils'
 
 import FromSearchChain from './FromSearchChain'
@@ -23,17 +24,20 @@ import boba from '../assets/chains/bobanetwork.svg'
 import { Context } from '../contexts/useContext'
 import axios from 'axios'
 import { API_URL } from '../config'
+import { Input } from 'postcss'
 
 function Bridge() {
-  const { account, chainId } = useContext(Web3ModalContext);
-  const [isApproved, setApproved] = useState(false);
+  const { account, chainId } = useContext(Web3ModalContext)
+  const [isApproved, setApproved] = useState(false)
+  const [sendAmount, setSendAmount] = useState<string | number>('')
   const [select, setSelect] = useState('transfer')
   const [activate, setActivate] = useState(true)
   const contextChain = useContext(Context)
   const { web3Wrapper: wrapper } = useContext(Web3WrapperContext)
-  const { erc20Wrapper: erc20} = useContext(ERC20Context)
+  const { erc20Wrapper: erc20 } = useContext(ERC20Context)
+  const { masterWrapper: master } = useContext(MasterAgentContext)
+  const [txId, setTxId] = useState('')
 
-  var txId;
   var fetching = false;
 
   useEffect(() => {
@@ -60,6 +64,8 @@ function Bridge() {
     erc20.getAllowance(account, chainId).then(function (result) {
       if(Number(result) > 0) {
         setApproved(true)
+      } else {
+        setApproved(false)
       }
     })
   })
@@ -92,9 +98,9 @@ function Bridge() {
       NotificationManager.error("No web3 wrapper available!")
       return
     }
-    const txHash = await wrapper.claimTokens(account);
+    const txHash = await wrapper.claimTokens(account)
     if (!txHash) {
-      NotificationManager.error('Error: Wrong Network Detected!');
+      NotificationManager.error('Error: Unable to process this transaction!');
       return;
     }
   }
@@ -118,6 +124,23 @@ function Bridge() {
     }
   }
 
+  const createSwapRequest = async () => {
+    if(!master) {
+      NotificationManager.error("No web3 wrapper available!")
+      return
+    }
+    if(Number(chainId) === Number(chainIdList.chainIds[contextChain.toChain])) {
+      NotificationManager.error("Can't bridge to the same network!")
+      return
+    }
+    const txHash:any = await master.requestSwap(chainId, account, account, sendAmount, chainIdList.chainIds[contextChain.toChain])
+    if (!txHash) {
+      NotificationManager.error('Error: Unable to process this transaction!');
+      return
+    }
+    return txHash.transactionHash.slice(-12)
+  }
+
   const [tokenBalance, setTokenBalance] = useState(0)
   const [openBridgeFromSearchChain, setopenBridgeFromSearchChain] = useState(false)
   const [openBridgeSendSearchChain, setopenBridgeSendSearchChain] = useState(false)
@@ -125,6 +148,10 @@ function Bridge() {
   const [transactionStatus, setTransactionStatus] = useState(false)
   const [transactionStatusData, setTransactionStatusData] = useState('Loading...')
 
+
+  function handleMaxOut(): void {
+    setSendAmount(String(tokenBalance))
+  }
   function handleBridgeFromSearchChain(): void {    
     setopenBridgeFromSearchChain(true)
   }
@@ -149,20 +176,22 @@ function Bridge() {
     setopenBridgeToSearchChain(false)
   }
 
-  function handleOpenTransactionStatus(): void {
+  async function handleOpenTransactionStatus(): Promise<void> {
     if(!account) {
       NotificationManager.error("Please Connect to MetaMask First!")
       return
     }
     setTransactionStatus(true)
+    let newTxId = await createSwapRequest()
+    setTxId(newTxId)
+    //txId = "4df519ed05dd"; 
   }
 
   function handleCloseTransactionStatus(): void {    
     setTransactionStatus(false)
     fetching = true;
   }
-
-  txId = "4df519ed05dd"; // TODO: Alterar id da transação
+  
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -193,17 +222,17 @@ function Bridge() {
       <div className="text-gray-200 bg-button-gray rounded-xl border-[1px] border-secondary-gray px-5 w-96">
         <div className="flex-wrap	w-[100%] pt-4">
           <div className="flex flex-row p-2 text-sm"><p className='pr-3 pt-2 text-xs'>From</p><button onClick={handleBridgeFromSearchChain} className='w-[40%] bg-background rounded-md py-2'><div className='flex justify-between px-2'><img className='' src={contextChain.fromChain === 'ethereum' ? ethereum : moonriver} width={25} alt='' />{contextChain.fromChain === 'ethereum' ? 'Rinkeby' : 'Moonbase'}<img src={inputArrow} alt='' width={12} /></div></button></div>
-          <div className="flex flex-row p-2"><input  placeholder={'Send: 0'} className='bg-background placeholder-gray-200 w-[100%] rounded-md p-2 py-3 text-xs' type="text" /><button onClick={handleBridgeSendSearchChain} className='absolute mt-2 xl:left-[52%] lg:left-[53%] md:left-[53.5%] sm:left-[55%] 2xl:left-[52%] bg-background rounded-md'><div className='flex justify-between text-sm space-x-2'>{contextChain.sendChain === 'portales' ? 'Port ERC20' : 'Port ERC20'}<img className='ml-2' src={contextChain.sendChain === 'portales' ? portales : portales} width={25} alt='' /><img src={inputArrow} alt='' width={12} /></div></button></div>
+          <div className="flex flex-row p-2"><input  placeholder={'Send: 0'} className='bg-background placeholder-gray-200 w-[100%] rounded-md p-2 py-3 text-xs' type="text" value={sendAmount} onChange={(e) => setSendAmount(e.target.value)}/><button onClick={handleBridgeSendSearchChain} className='absolute mt-2 xl:left-[52%] lg:left-[53%] md:left-[53.5%] sm:left-[55%] 2xl:left-[52%] bg-background rounded-md'><div className='flex justify-between text-sm space-x-2'>{contextChain.sendChain === 'portales' ? 'Port ERC20' : 'Port ERC20'}<img className='ml-2' src={contextChain.sendChain === 'portales' ? portales : portales} width={25} alt='' /><img src={inputArrow} alt='' width={12} /></div></button></div>
         </div>
         <div className='flex flex-row justify-between '>
           <div className='p-5'> </div> <button className='self-center rounded-lg my-3 py-3 px-1 border-transparent border-2 hover:border-2 hover:border-button-blue bg-background'><img src={arrows} alt="arrows" width={23} /></button>
-          <div className="text-gray-200 text-sm pr-2"><button><p className='underline underline-offset-1'>Max: {tokenBalance}</p></button></div>
+          <div className="text-gray-200 text-sm pr-2"><button onClick={handleMaxOut}><p className='underline underline-offset-1'>Max: {tokenBalance}</p></button></div>
         </div>
         <div className="flex flex-row p-2 text-sm"><p className='pr-7 pt-2 text-xs'>To</p><button onClick={handleBridgeToSearchChain} className='w-[40%] bg-background rounded-md py-2'><div className='flex justify-between px-2'><img className='' src={contextChain.toChain === 'ethereum' ? ethereum : moonriver} width={25} alt='' />{contextChain.toChain === 'ethereum' ? 'Rinkeby' : 'Moonbase'}<img src={inputArrow} alt='' width={12} /></div></button></div>
         <div className="flex flex-row p-2"><input placeholder='Receive (estimated): 0' className='bg-background w-[100%] placeholder-gray-200 rounded-md p-2 py-3 px-2 text-xs' type="text" /></div>
         <div className='flex flex-row justify-center pt-4 pb-4'>
           { !isApproved? (<button onClick={handleApprove} className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'>Approve</button>
-          ) : (<button onClick={handleOpenTransactionStatus} className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'> Swap </button>
+          ) : (<button onClick={handleOpenTransactionStatus} className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'>Swap</button>
           )
           }
         </div>
