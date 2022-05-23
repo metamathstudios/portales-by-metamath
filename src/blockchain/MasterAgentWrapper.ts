@@ -27,7 +27,7 @@ export default class MasterWrapper {
 
     async requestSwap(chainId, from, to, amount, targetChain) {
         try {
-            const tx = await this.Contract.send("requestSwap", {from: from} , '0.0001', tokens.Portales[chainId] , to, amount, targetChain);
+            const tx = await this.Contract.send("requestSwap", {from: from, value: BigNumber.from(ethers.utils.parseUnits('0.0001', 'ether'))} , tokens.Portales[chainId] , to, BigNumber.from(ethers.utils.parseUnits(amount, 'ether')), targetChain);
             return tx;
         } catch (e) {
             console.log(e);

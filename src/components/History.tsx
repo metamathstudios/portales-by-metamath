@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useContext } from 'react'
 
 import close from '../assets/svg/close.svg'
 import backArrow from '../assets/svg/back.svg'
@@ -16,9 +16,11 @@ var deg = 0;
 function History( {...props}: HistoryProps) {
   const [fetched, setFetched] = useState(false)
   const [data, setData] = useState([]);
-  
+  let account = window.ethereum.selectedAddress
+  console.log(account)
+
   const fetch = useCallback(async () => {
-    const account = "0xd9bca352c1466dAb438b05069C97C520445d68fD";  // TODO: Alterar id da carteira
+    //const account = "0xd9bca352c1466dAb438b05069C97C520445d68fD";
 
     setFetched(false)
     
