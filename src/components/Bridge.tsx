@@ -7,6 +7,7 @@ import { Web3WrapperContext } from '../contexts/Web3WrapperProvider'
 import FromSearchChain from './FromSearchChain'
 import SendSearchChain from './SendSearchChain'
 import ToSearchChain from './ToSearchChain'
+import TransactionStatus from './TransactionStatus'
 
 import arrows from '../assets/svg/changeArrows.svg'
 import inputArrow from '../assets/svg/arrow.svg'
@@ -18,6 +19,8 @@ import portales from '../assets/tokens/portalescoin.svg'
 import boba from '../assets/chains/bobanetwork.svg'
 
 import { Context } from '../contexts/useContext'
+import axios from 'axios'
+import { API_URL } from '../config'
 
 function Bridge() {
   const { connect, account, chainId } = useContext(Web3ModalContext);
@@ -25,6 +28,9 @@ function Bridge() {
   const [activate, setActivate] = useState(true)
   const contextChain = useContext(Context)
   const { web3Wrapper: wrapper } = useContext(Web3WrapperContext)
+
+  var txId;
+  var fetching = false;
 
   useEffect(() => {
     if (chainId !== null && !supportedChains.includes(chainId)) {
@@ -60,14 +66,17 @@ function Bridge() {
   const [openBridgeFromSearchChain, setopenBridgeFromSearchChain] = useState(false)
   const [openBridgeSendSearchChain, setopenBridgeSendSearchChain] = useState(false)
   const [openBridgeToSearchChain, setopenBridgeToSearchChain] = useState(false)
-  
+  const [transactionStatus, setTransactionStatus] = useState(false)
+  const [transactionStatusData, setTransactionStatusData] = useState('Loading...')
 
   function handleBridgeFromSearchChain(): void {    
     setopenBridgeFromSearchChain(true)
   }
+
   function handleBridgeSendSearchChain(): void {    
     setopenBridgeSendSearchChain(true)
   }
+
   function handleBridgeToSearchChain(): void {    
     setopenBridgeToSearchChain(true)
   }
@@ -75,12 +84,41 @@ function Bridge() {
   function handleCloseBridgeFromSearchChain(): void {    
     setopenBridgeFromSearchChain(false)
   }
+
   function handleCloseBridgeSendSearchChain(): void {    
     setopenBridgeSendSearchChain(false)
   }
+
   function handleCloseBridgeToSearchChain(): void {    
     setopenBridgeToSearchChain(false)
   }
+
+  function handleOpenTransactionStatus(): void {    
+    setTransactionStatus(true)
+  }
+
+  function handleCloseTransactionStatus(): void {    
+    setTransactionStatus(false)
+    fetching = true;
+  }
+
+  txId = "4df519ed05dd"; // TODO: Alterar id da transação
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if(transactionStatus) {
+        await axios.get(API_URL + `/transaction/${txId}/status`)
+        .then((res) => {
+          const data: String = res.data.status;
+          setTransactionStatusData(data.charAt(0).toUpperCase() + data.slice(1));
+        })
+      }
+
+      if(fetching) {
+        clearInterval(interval)
+      }
+    }, 1000)
+  }, [transactionStatus])
 
   return (
     <>
@@ -109,7 +147,7 @@ function Bridge() {
         <div className="flex flex-row p-2"><input placeholder='Receive (estimated): 0' className='bg-background w-[100%] placeholder-gray-200 rounded-md p-2 py-3 px-2 text-xs' type="text" /></div>
         <div className='flex flex-row justify-center pt-4 pb-4'>
           { !account? (<button onClick={handleConnectWallet} className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'>Connect</button>
-          ) : (<button className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'>Swap</button>
+          ) : (<button onClick={handleOpenTransactionStatus} className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'>Swap</button>
           )
           }
         </div>
@@ -128,6 +166,7 @@ function Bridge() {
     { openBridgeFromSearchChain && ( <FromSearchChain openFromSearchChain={openBridgeFromSearchChain} handleCloseBridgeFromSearchChain={handleCloseBridgeFromSearchChain} />)}
     { openBridgeSendSearchChain && ( <SendSearchChain openSendSearchChain={openBridgeSendSearchChain} handleCloseBridgeSendSearchChain={handleCloseBridgeSendSearchChain} />)}
     { openBridgeToSearchChain && ( <ToSearchChain openToSearchChain={openBridgeToSearchChain} handleCloseBridgeToSearchChain={handleCloseBridgeToSearchChain} />)}
+    <TransactionStatus handle={handleCloseTransactionStatus} state={transactionStatus} status={transactionStatusData}/>
     </>
   )
 }
