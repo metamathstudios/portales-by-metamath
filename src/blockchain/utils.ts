@@ -1,8 +1,8 @@
 import Web3 from 'web3'
 import { useContext} from 'react'
 import { rpcUrls } from './constants'
-import { BigNumber } from "bignumber.js"
-import { Web3ModalContext } from "../contexts/Web3ModalProvider"
+import { BigNumber } from 'bignumber.js'
+import { Web3ModalContext } from '../contexts/Web3ModalProvider'
 
 export const createWeb3 = (provider) => {
 

@@ -19,3 +19,10 @@ export const addresses = {
     4: '0x02B1686B3807F3a675927c11e73462AC74aE5286',
   },
 }
+
+export const bridges = {
+  Bridge: {
+    4: '0x618BaBbcB9F6DCbBdbae54c3058c686fC7650fFE',
+    1287: '0xeE98a5472D21a39E3EcC0fC12a5D359C4B2AfDDD'
+  }
+}
