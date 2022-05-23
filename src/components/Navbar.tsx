@@ -2,6 +2,7 @@ import { useContext, useCallback, useState } from 'react';
 import logo from '../assets/logo/portales.svg'
 import history from '../assets/svg/history.svg'
 import { Web3ModalContext } from "../contexts/Web3ModalProvider"
+import { NotificationManager } from 'react-notifications'
 
 
 function Navbar({handleOpen}: any) {
@@ -16,6 +17,9 @@ function Navbar({handleOpen}: any) {
   }
 
   const handleConnectWallet = useCallback(() => {
+    if(!window.ethereum) { 
+      NotificationManager.error("Metamask not Detected!")
+     }
     connect();
   }, [connect]);
 
