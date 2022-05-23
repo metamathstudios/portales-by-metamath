@@ -10,6 +10,7 @@ import ContextProvider from './contexts/useContext'
 import Web3ModalProvider from "./contexts/Web3ModalProvider"
 import { NotificationContainer } from 'react-notifications'
 
+
 function App() {
   const [openComponents, setOpenComponents] = useState(false)
 
