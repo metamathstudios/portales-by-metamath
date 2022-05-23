@@ -181,9 +181,10 @@ function Bridge() {
       NotificationManager.error("Please Connect to MetaMask First!")
       return
     }
-    setTransactionStatus(true)
+    
     let newTxId = await createSwapRequest()
     setTxId(newTxId)
+    setTransactionStatus(true)
     //txId = "4df519ed05dd"; 
   }
 

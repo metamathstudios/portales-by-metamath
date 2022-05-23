@@ -5,7 +5,6 @@ import backArrow from '../assets/svg/back.svg'
 import Transactions from './Transactions'
 import axios from 'axios'
 import { API_URL } from '../config'
-import { Web3ModalContext } from '../contexts/Web3ModalProvider'
 
 type HistoryProps = {
   openHistory:boolean,
@@ -17,9 +16,10 @@ var deg = 0;
 function History( {...props}: HistoryProps) {
   const [fetched, setFetched] = useState(false)
   const [data, setData] = useState([]);
-  
+  let account = window.ethereum.selectedAddress
+  console.log(account)
+
   const fetch = useCallback(async () => {
-    const { account } = useContext(Web3ModalContext)
     //const account = "0xd9bca352c1466dAb438b05069C97C520445d68fD";
 
     setFetched(false)
