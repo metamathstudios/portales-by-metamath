@@ -16,6 +16,7 @@ var deg = 0;
 function History( {...props}: HistoryProps) {
   const [fetched, setFetched] = useState(false)
   const [data, setData] = useState([]);
+  if(!window.ethereum) { return }
   let account = window.ethereum.selectedAddress
   console.log(account)
 
