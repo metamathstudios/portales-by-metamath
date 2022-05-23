@@ -5,7 +5,8 @@ import { Context } from '../contexts/useContext'
 import close from '../assets/svg/close.svg'
 import ethereum from '../assets/chains/ethereum.svg'
 import moonriver from '../assets/chains/moonriver.svg'
-
+import boba from '../assets/chains/bobanetwork.svg'
+import portales from '../assets/tokens/portalescoin.svg'
 
 type SearchChainProps = {
   openSendSearchChain:boolean,
