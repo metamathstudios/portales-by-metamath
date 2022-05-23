@@ -11,6 +11,7 @@ import Web3ModalProvider from './contexts/Web3ModalProvider'
 import Web3WrapperProvider from './contexts/Web3WrapperProvider'
 import MasterAgentProvider from './contexts/MasterAgentProvider'
 import ChildAgentProvider from './contexts/ChildAgentProvider'
+import ERC20Provider from './contexts/ERC20Provider'
 import { NotificationContainer } from 'react-notifications'
 
 function App() {
@@ -43,9 +44,11 @@ const Providers = (props: any) => {
       <Web3WrapperProvider>
         <MasterAgentProvider>
           <ChildAgentProvider>
-            <ContextProvider>
-              {props.children}
-            </ContextProvider>
+            <ERC20Provider>
+              <ContextProvider>
+                {props.children}
+              </ContextProvider>
+            </ERC20Provider>
           </ChildAgentProvider>
         </MasterAgentProvider>
       </Web3WrapperProvider>

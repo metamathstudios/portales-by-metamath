@@ -7,4 +7,4 @@ class ChildAgent extends Contract {
     }
   }
   
-  export default ChildAgent;
+export default ChildAgent;

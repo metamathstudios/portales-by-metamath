@@ -18,9 +18,9 @@ export const Context = createContext<CreateContextTypes>({} as CreateContextType
 
 function ContextProvider({children}: ContextProviderProps) {
   
-  const [fromChain, setFromChain] = useState('moonbase')
+  const [fromChain, setFromChain] = useState('ethereum')
   const [sendChain, setSendChain] = useState('portales')
-  const [toChain, setToChain] = useState('moonbase')
+  const [toChain, setToChain] = useState('moonriver')
 
   function fromUpdateChain(value:string) {
     setFromChain(value)

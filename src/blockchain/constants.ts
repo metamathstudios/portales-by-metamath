@@ -26,3 +26,11 @@ export const bridges = {
     1287: '0xeE98a5472D21a39E3EcC0fC12a5D359C4B2AfDDD'
   }
 }
+
+export const tokens = {
+  Portales: {
+    4: '0x0ACC4A351fC9C8d840337b41f2F9c8EE45B8da23',
+    1287: '0xee04e575fFfFB3bE35fd9166936Bd31363182eE8'
+  }
+
+}

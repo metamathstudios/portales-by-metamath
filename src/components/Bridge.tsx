@@ -3,6 +3,8 @@ import { NotificationManager } from 'react-notifications'
 import { Web3ModalContext } from '../contexts/Web3ModalProvider'
 import { supportedChains, networkNames } from '../blockchain/constants'
 import { Web3WrapperContext } from '../contexts/Web3WrapperProvider'
+import { ERC20Context } from '../contexts/ERC20Provider'
+import { BntoNum } from '../blockchain/utils'
 
 import FromSearchChain from './FromSearchChain'
 import SendSearchChain from './SendSearchChain'
@@ -28,6 +30,7 @@ function Bridge() {
   const [activate, setActivate] = useState(true)
   const contextChain = useContext(Context)
   const { web3Wrapper: wrapper } = useContext(Web3WrapperContext)
+  const { erc20Wrapper: erc20} = useContext(ERC20Context)
 
   var txId;
   var fetching = false;
@@ -37,6 +40,17 @@ function Bridge() {
       NotificationManager.error(`The current network is not supported!`, "Wrong Network");
     }
   }, [chainId])
+
+  useEffect(() => {
+    if(!account || !erc20) {
+      return
+    }
+    erc20.getBalance(account).then(function (result) {
+      if(Number(result)){
+        setTokenBalance(BntoNum(result))
+      }   
+    })
+  })
 
   const handleConnectWallet = useCallback(() => {
     connect();
@@ -63,6 +77,7 @@ function Bridge() {
     }
   }
 
+  const [tokenBalance, setTokenBalance] = useState(0)
   const [openBridgeFromSearchChain, setopenBridgeFromSearchChain] = useState(false)
   const [openBridgeSendSearchChain, setopenBridgeSendSearchChain] = useState(false)
   const [openBridgeToSearchChain, setopenBridgeToSearchChain] = useState(false)
@@ -124,12 +139,8 @@ function Bridge() {
     <>
     <div className="flex flex-col justify-start items-center">
       <div className="flex h-12 px-2 bg-button-grey text-white rounded-2xl xl:-mt-16 mb-6 items-center font-lalezar bg-button-gray 2xl:mt-20">
-        <button className={select === 'transfer' ? 'bg-button-blue rounded-xl py-2 px-8 ease-linear duration-300' : 'text-white rounded-xl py-2 px-8 ease-linear duration-300'} onClick={() => handleButton('transfer')}>
-          <p className='mt-[2px]'>Transfer</p>
-        </button>
-        <button className={select === 'liquidity' ? 'bg-button-blue rounded-xl py-2 px-8 ease-linear duration-300' : 'text-white rounded-xl py-2 px-8 ease-linear duration-300'} onClick={() => handleButton('liquidity')}>
-          <p className='mt-[2px]'>Faucet</p>
-        </button>
+        <button className={select === 'transfer' ? 'bg-button-blue rounded-xl py-2 px-8 ease-linear duration-300' : 'text-white rounded-xl py-2 px-8 ease-linear duration-300'} onClick={() => handleButton('transfer')}><p className='mt-[2px]'>Transfer</p></button>
+        <button className={select === 'liquidity' ? 'bg-button-blue rounded-xl py-2 px-8 ease-linear duration-300' : 'text-white rounded-xl py-2 px-8 ease-linear duration-300'} onClick={() => handleButton('liquidity')}><p className='mt-[2px]'>Faucet</p></button>
       </div>
 
       {select == 'transfer' ?
@@ -141,7 +152,7 @@ function Bridge() {
         </div>
         <div className='flex flex-row justify-between '>
           <div className='p-5'> </div> <button className='self-center rounded-lg my-3 py-3 px-1 border-transparent border-2 hover:border-2 hover:border-button-blue bg-background'><img src={arrows} alt="arrows" width={23} /></button>
-          <div className="text-gray-200 text-sm pr-2"><button><p className='underline underline-offset-1'>Max: 0</p></button></div>
+          <div className="text-gray-200 text-sm pr-2"><button><p className='underline underline-offset-1'>Max: {tokenBalance}</p></button></div>
         </div>
         <div className="flex flex-row p-2 text-sm"><p className='pr-7 pt-2 text-xs'>To</p><button onClick={handleBridgeToSearchChain} className='w-[40%] bg-background rounded-md py-2'><div className='flex justify-between px-2'><img className='' src={contextChain.toChain === 'ethereum' ? ethereum : moonriver} width={25} alt='' />{contextChain.toChain === 'ethereum' ? 'Rinkeby' : 'Moonbase'}<img src={inputArrow} alt='' width={12} /></div></button></div>
         <div className="flex flex-row p-2"><input placeholder='Receive (estimated): 0' className='bg-background w-[100%] placeholder-gray-200 rounded-md p-2 py-3 px-2 text-xs' type="text" /></div>
