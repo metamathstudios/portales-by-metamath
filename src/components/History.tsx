@@ -18,7 +18,7 @@ function History( {...props}: HistoryProps) {
   const [data, setData] = useState([]);
   
   const fetch = useCallback(async () => {
-    const account = "0xd9bca352c1466dAb438b05069C97C520445d68fD";
+    const account = "0xd9bca352c1466dAb438b05069C97C520445d68fD";  // TODO: Alterar id da carteira
 
     setFetched(false)
     

@@ -6,7 +6,6 @@ import close from '../assets/svg/close.svg'
 import ethereum from '../assets/chains/ethereum.svg'
 import moonriver from '../assets/chains/moonriver.svg'
 
-
 type SearchChainProps = {
   openToSearchChain:boolean,
   handleCloseBridgeToSearchChain:() => void,
