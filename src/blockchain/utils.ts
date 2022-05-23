@@ -1,6 +1,8 @@
-import Web3 from 'web3';
-import { defaultChainId, rpcUrls } from './constants';
-import { BigNumber } from "bignumber.js";
+import Web3 from 'web3'
+import { useContext} from 'react'
+import { rpcUrls } from './constants'
+import { BigNumber } from 'bignumber.js'
+import { Web3ModalContext } from '../contexts/Web3ModalProvider'
 
 export const createWeb3 = (provider) => {
 
@@ -24,14 +26,18 @@ export const createWeb3 = (provider) => {
 }
 
 export const getDefaultWeb3 = () => {
-  return createWeb3(rpcUrls[defaultChainId]);
+  const { chainId } = useContext(Web3ModalContext)
+  if(!chainId) {return}
+  return createWeb3(rpcUrls[chainId]);
 }
 
 export const getDefaultContractOptions = () => {
+  const { chainId } = useContext(Web3ModalContext)
+  if(!chainId) {return}
   const web3 = getDefaultWeb3();
   return { 
     web3, 
-    chainId: defaultChainId, 
+    chainId: chainId, 
     account: null 
   };
 }

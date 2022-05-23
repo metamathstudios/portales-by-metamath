@@ -1,15 +1,15 @@
 import Web3 from 'web3';
-import  MainContract from "./contracts/FaucetContract";
-import { addresses } from './constants';
+import  ChildAgentContract from './contracts/ChildAgent';
+import { bridges } from './constants';
 //import { BntoNum, NumToBn } from './utils';
 
 
-export default class Web3Wrapper {
+export default class ChildWrapper {
     web3: Web3;
     chainId: number;
     account: string;
     wrapperOptions: any;
-    Contract: MainContract;
+    Contract: ChildAgentContract;
 
     constructor(web3, chainId, account, options = {}) {
 
@@ -21,10 +21,10 @@ export default class Web3Wrapper {
             web3, chainId, account,
             ...options
         }
-        this.Contract = new MainContract(this.wrapperOptions, addresses.Contract[this.chainId]);
+        this.Contract = new ChildAgentContract(this.wrapperOptions, bridges.Bridge[this.chainId]);
     } 
 
-    async claimTokens(account) {
+/*     async claimTokens(account) {
         try {
             const tx = await this.Contract.send("claimTokens", {from: account});
             return tx;
@@ -32,5 +32,5 @@ export default class Web3Wrapper {
             console.log(e);
             return false;
         }
-    } 
+    }  */
 }

@@ -1,4 +1,4 @@
-import { useContext, useCallback } from 'react';
+import { useContext, useCallback, useState } from 'react';
 import logo from '../assets/logo/portales.svg'
 import history from '../assets/svg/history.svg'
 import { Web3ModalContext } from "../contexts/Web3ModalProvider"
@@ -23,6 +23,11 @@ function Navbar({handleOpen}: any) {
     disconnect();
   }, [disconnect]);
 
+  const [openDropdown, setOpenDropdown] = useState(false)
+  function handleDropdown() {
+    setOpenDropdown(!openDropdown)
+  }
+
   return (
     <div className='flex justify-between pr-4 pt-1 font-lalezar'>
       <div className='flex p-4'>
@@ -36,8 +41,13 @@ function Navbar({handleOpen}: any) {
          }
         {!account ? (<button onClick={handleConnectWallet} className='w-[190px] py-3 pr-8 pl-8 bg-button-blue rounded-xl text-white text-md'>Connect Wallet </button>
         ) :
-        (<button onClick={handleDisconnectWallet} className='w-[190px] py-3 pr-8 pl-8 bg-button-blue rounded-xl text-white text-md'>{(ellipseAddress(account)) } </button>)} 
-        {/* <button className='py-3 px-4 bg-button-gray rounded-xl font-black text-white text-lg tracking-widest'>...</button> */}
+        (<button className='w-[190px] py-3 pr-8 pl-8 bg-button-blue rounded-xl text-white text-md'>{(ellipseAddress(account)) } </button>)} 
+        <div className='flex-column'>
+          <button onClick={handleDropdown} className={`py-3 px-4 bg-button-gray rounded-xl font-black text-white text-lg tracking-widest`}>...</button>
+          <div className={openDropdown === false ? 'hidden' : 'absolute 2xl:left-[90%] xl:left-[87%] lg:left-[85%] md:left-[80%] mt-2 rounded-xl bg-button-gray p-2'}>
+          <button onClick={handleDisconnectWallet} className='w-[150px] py-2 px-2 bg-button-blue rounded-xl text-white text-md'>Disconnect Wallet </button>
+          </div>
+        </div>
       </div>
     </div>
   )
