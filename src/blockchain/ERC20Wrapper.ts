@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import  ERC20Contract from './contracts/ERC20';
 import { bridges, tokens } from './constants';
-//import { BntoNum, NumToBn } from './utils';
+import { ethers, BigNumber } from 'ethers';
 
 
 export default class ERC20Wrapper {
@@ -32,5 +32,25 @@ export default class ERC20Wrapper {
             console.log(e);
             return false;
         }
-    } 
+    }
+
+    async approve(account, chainId) {
+        try {
+            const tx = await this.Contract.send("approve", {from: account} , bridges.Bridge[chainId] , BigNumber.from(ethers.utils.parseUnits('10000', 'ether')));
+            return tx;
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    async getAllowance(account, chainId) {
+        try {
+            const tx = await this.Contract.call("allowance", account, bridges.Bridge[chainId]);
+            return tx;
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }

@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import  MasterAgentContract from './contracts/MasterAgent';
-import { bridges } from './constants';
-//import { BntoNum, NumToBn } from './utils';
+import { bridges , tokens } from './constants';
+import { ethers, BigNumber } from 'ethers';
 
 
 export default class MasterWrapper {
@@ -24,13 +24,16 @@ export default class MasterWrapper {
         this.Contract = new MasterAgentContract(this.wrapperOptions, bridges.Bridge[this.chainId]);
     } 
 
-/*     async claimTokens(account) {
+
+    async requestSwap(chainId, from, to, amount, targetChain) {
         try {
-            const tx = await this.Contract.send("claimTokens", {from: account});
+            const tx = await this.Contract.send("requestSwap", {from: from} , '0.0001', tokens.Portales[chainId] , to, amount, targetChain);
             return tx;
         } catch (e) {
             console.log(e);
             return false;
         }
-    }  */
+    }
+
+
 }

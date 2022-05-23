@@ -25,7 +25,8 @@ import axios from 'axios'
 import { API_URL } from '../config'
 
 function Bridge() {
-  const { connect, account, chainId } = useContext(Web3ModalContext);
+  const { account, chainId } = useContext(Web3ModalContext);
+  const [isApproved, setApproved] = useState(false);
   const [select, setSelect] = useState('transfer')
   const [activate, setActivate] = useState(true)
   const contextChain = useContext(Context)
@@ -53,6 +54,17 @@ function Bridge() {
   })
 
   useEffect(() => {
+    if(!account || !erc20) {
+      return
+    }
+    erc20.getAllowance(account, chainId).then(function (result) {
+      if(Number(result) > 0) {
+        setApproved(true)
+      }
+    })
+  })
+
+  useEffect(() => {
     if(chainId !== null && chainIdList.chainIds[contextChain.fromChain] !== chainId) {
       let newChainId = `0x${chainIdList.chainIds[contextChain.fromChain].toString(16)}`
       try {
@@ -65,10 +77,6 @@ function Bridge() {
       }
     }
   })
-
-  const handleConnectWallet = useCallback(() => {
-    connect();
-  }, [connect]);
 
   function handleButton(props:any) {
     setSelect(props)
@@ -88,6 +96,25 @@ function Bridge() {
     if (!txHash) {
       NotificationManager.error('Error: Wrong Network Detected!');
       return;
+    }
+  }
+
+  const handleApprove = async () => {
+    if(!account) {
+      NotificationManager.error("Please Connect to MetaMask First!")
+      return
+    }
+    if(!erc20) {
+      NotificationManager.error("No web3 wrapper available!")
+      return
+    }
+    if(isApproved === false) {
+      const tx = await erc20.approve(account, chainId)
+      if (!tx) {
+        NotificationManager.error('Transaction error!');
+        return;
+      }
+      setApproved(true)
     }
   }
 
@@ -122,7 +149,11 @@ function Bridge() {
     setopenBridgeToSearchChain(false)
   }
 
-  function handleOpenTransactionStatus(): void {    
+  function handleOpenTransactionStatus(): void {
+    if(!account) {
+      NotificationManager.error("Please Connect to MetaMask First!")
+      return
+    }
     setTransactionStatus(true)
   }
 
@@ -171,8 +202,8 @@ function Bridge() {
         <div className="flex flex-row p-2 text-sm"><p className='pr-7 pt-2 text-xs'>To</p><button onClick={handleBridgeToSearchChain} className='w-[40%] bg-background rounded-md py-2'><div className='flex justify-between px-2'><img className='' src={contextChain.toChain === 'ethereum' ? ethereum : moonriver} width={25} alt='' />{contextChain.toChain === 'ethereum' ? 'Rinkeby' : 'Moonbase'}<img src={inputArrow} alt='' width={12} /></div></button></div>
         <div className="flex flex-row p-2"><input placeholder='Receive (estimated): 0' className='bg-background w-[100%] placeholder-gray-200 rounded-md p-2 py-3 px-2 text-xs' type="text" /></div>
         <div className='flex flex-row justify-center pt-4 pb-4'>
-          { !account? (<button onClick={handleConnectWallet} className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'>Connect</button>
-          ) : (<button onClick={handleOpenTransactionStatus} className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'>Swap</button>
+          { !isApproved? (<button onClick={handleApprove} className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'>Approve</button>
+          ) : (<button onClick={handleOpenTransactionStatus} className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'> Swap </button>
           )
           }
         </div>
