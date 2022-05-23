@@ -8,9 +8,7 @@ type CreateContextTypes = {
   fromUpdateChain: (value:string) => void
   sendUpdateChain: (value:string) => void
   toUpdateChain: (value:string) => void
-
 }
-
 
 type ContextProviderProps = {
   children: ReactNode
@@ -21,7 +19,7 @@ export const Context = createContext<CreateContextTypes>({} as CreateContextType
 function ContextProvider({children}: ContextProviderProps) {
   
   const [fromChain, setFromChain] = useState('moonbase')
-  const [sendChain, setSendChain] = useState('moonbase')
+  const [sendChain, setSendChain] = useState('portales')
   const [toChain, setToChain] = useState('moonbase')
 
   function fromUpdateChain(value:string) {

@@ -25,21 +25,14 @@ function SendSearchChain({...props}:SearchChainProps) {
             <button onClick={() => props.handleCloseBridgeSendSearchChain()}><img src={close} width={10} alt="close" /></button>
           </div>
           <div className='flex flex-row justify-center pb-4'>
-            <input className='bg-background py-3 w-[100%] rounded-lg text-xs px-3' type="text" placeholder='Search chain by name of chain ID' />
+            <input className='bg-background py-3 w-[100%] rounded-lg text-xs px-3' type="text" placeholder='Search coin by name of coin ID' />
           </div>
           
           <div className='flex flex-col py-2 space-y-2 w-[100%]'>
-            <button onClick={() => {sendUpdateChain('moonriver'); props.handleCloseBridgeSendSearchChain()}}>
+            <button onClick={() => {sendUpdateChain('portales'); props.handleCloseBridgeSendSearchChain()}}>
               <div className='flex flex-row pl-2 w-[100%] h-12 bg-background rounded-xl'>
-                <img src={moonriver} width={30} alt="" />
-                <div className='flex-row justify-between px-3 py-1'><p className='text-sm text-gray-300 pt-2'>Moonbase Alpha</p></div>
-              </div>
-            </button>
-
-            <button onClick={() => {sendUpdateChain('ethereum'); props.handleCloseBridgeSendSearchChain()}}>
-              <div className='flex flex-row pl-2 w-[100%] h-12 bg-background rounded-xl'>
-                <img src={ethereum} width={30} alt="" />
-                <div className='flex-row justify-between px-3 py-1'><p className='text-sm text-gray-300 pt-2'>Rinkeby Testnet</p></div>
+                <img src={portales} width={30} alt="" />
+                <div className='flex-row justify-between px-3 py-1'><p className='text-sm text-gray-300 pt-2'>Port ERC20</p></div>
               </div>
             </button>
           </div>
