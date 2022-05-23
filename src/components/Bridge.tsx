@@ -230,7 +230,7 @@ function Bridge() {
           <div className="text-gray-200 text-sm pr-2"><button onClick={handleMaxOut}><p className='underline underline-offset-1'>Max: {tokenBalance}</p></button></div>
         </div>
         <div className="flex flex-row p-2 text-sm"><p className='pr-7 pt-2 text-xs'>To</p><button onClick={handleBridgeToSearchChain} className='w-[40%] bg-background rounded-md py-2'><div className='flex justify-between px-2'><img className='' src={contextChain.toChain === 'ethereum' ? ethereum : moonriver} width={25} alt='' />{contextChain.toChain === 'ethereum' ? 'Rinkeby' : 'Moonbase'}<img src={inputArrow} alt='' width={12} /></div></button></div>
-        <div className="flex flex-row p-2"><input placeholder='Receive (estimated): 0' className='bg-background w-[100%] placeholder-gray-200 rounded-md p-2 py-3 px-2 text-xs' type="text" /></div>
+        <div className="flex flex-row p-2"><input placeholder='Receive (estimated): 0' className='bg-background w-[100%] placeholder-gray-200 rounded-md p-2 py-3 px-2 text-xs' type="text" value={sendAmount}/></div>
         <div className='flex flex-row justify-center pt-4 pb-4'>
           { !isApproved? (<button onClick={handleApprove} className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'>Approve</button>
           ) : (<button onClick={handleOpenTransactionStatus} className='py-4 px-[110px] rounded-md text-white font-bold bg-button-blue'>Swap</button>
