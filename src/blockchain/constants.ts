@@ -32,5 +32,11 @@ export const tokens = {
     4: '0x0ACC4A351fC9C8d840337b41f2F9c8EE45B8da23',
     1287: '0xee04e575fFfFB3bE35fd9166936Bd31363182eE8'
   }
+}
 
+export const chainIdList = {
+  chainIds: {
+    'ethereum' : 4,
+    'moonriver' : 1287
+  }
 }

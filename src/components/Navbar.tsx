@@ -45,7 +45,7 @@ function Navbar({handleOpen}: any) {
         <div className='flex-column'>
           <button onClick={handleDropdown} className={`py-3 px-4 bg-button-gray rounded-xl font-black text-white text-lg tracking-widest`}>...</button>
           <div className={openDropdown === false ? 'hidden' : 'absolute 2xl:left-[90%] xl:left-[87%] lg:left-[85%] md:left-[80%] mt-2 rounded-xl bg-button-gray p-2'}>
-          <button className='w-[150px] py-2 px-2 bg-button-blue rounded-xl text-white text-md'>Disconnect Wallet </button>
+          <button onClick={handleDisconnectWallet} className='w-[150px] py-2 px-2 bg-button-blue rounded-xl text-white text-md'>Disconnect Wallet </button>
           </div>
         </div>
       </div>

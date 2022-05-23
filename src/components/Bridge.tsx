@@ -1,7 +1,7 @@
 import { useState, useContext, useCallback, useEffect } from 'react'
 import { NotificationManager } from 'react-notifications'
 import { Web3ModalContext } from '../contexts/Web3ModalProvider'
-import { supportedChains, networkNames } from '../blockchain/constants'
+import { supportedChains, networkNames, chainIdList } from '../blockchain/constants'
 import { Web3WrapperContext } from '../contexts/Web3WrapperProvider'
 import { ERC20Context } from '../contexts/ERC20Provider'
 import { BntoNum } from '../blockchain/utils'
@@ -52,6 +52,20 @@ function Bridge() {
     })
   })
 
+  useEffect(() => {
+    if(chainId !== null && chainIdList.chainIds[contextChain.fromChain] !== chainId) {
+      let newChainId = `0x${chainIdList.chainIds[contextChain.fromChain].toString(16)}`
+      try {
+          window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: newChainId }],
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  })
+
   const handleConnectWallet = useCallback(() => {
     connect();
   }, [connect]);
@@ -72,7 +86,7 @@ function Bridge() {
     }
     const txHash = await wrapper.claimTokens(account);
     if (!txHash) {
-      NotificationManager.error('Mint Transaction Error');
+      NotificationManager.error('Error: Wrong Network Detected!');
       return;
     }
   }
