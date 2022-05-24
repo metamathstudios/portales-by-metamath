@@ -129,10 +129,6 @@ function Bridge() {
       NotificationManager.error("No web3 wrapper available!")
       return
     }
-    if(Number(chainId) === Number(chainIdList.chainIds[contextChain.toChain])) {
-      NotificationManager.error("Can't bridge to the same network!")
-      return
-    }
     const txHash:any = await master.requestSwap(chainId, account, account, sendAmount, chainIdList.chainIds[contextChain.toChain])
     if (!txHash) {
       NotificationManager.error('Error: Unable to process this transaction!');
@@ -181,6 +177,10 @@ function Bridge() {
       NotificationManager.error("Please Connect to MetaMask First!")
       return
     }
+    if(Number(chainId) === Number(chainIdList.chainIds[contextChain.toChain])) {
+      NotificationManager.error("Can't bridge to the same network!")
+      return
+    }
     
     let newTxId = await createSwapRequest()
     setTxId(newTxId)
@@ -196,7 +196,7 @@ function Bridge() {
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      if(transactionStatus) {
+      if(transactionStatus && typeof txId !== 'undefined' ) {
         await axios.get(API_URL + `/transaction/${txId}/status`)
         .then((res) => {
           const data: String = res.data.status;
