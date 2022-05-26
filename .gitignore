@@ -2,3 +2,6 @@ api/node_modules
 api/yarn.lock
 api/.env
 api/.editorconfig
+api/Dockerfile
+api/.dockerignore
+api/cert
