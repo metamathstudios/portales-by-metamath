@@ -13,6 +13,7 @@ import MasterAgentProvider from './contexts/MasterAgentProvider'
 import ERC20Provider from './contexts/ERC20Provider'
 import { NotificationContainer } from 'react-notifications'
 
+
 function App() {
   const [openComponents, setOpenComponents] = useState(false)
 
