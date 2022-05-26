@@ -1,13 +1,23 @@
 const db = require('@metamathstudios/redis-wrapper');
+var fs = require('fs');
+var http = require('http');
+var https = require('https');
+var privateKey  = fs.readFileSync('./cert/selfsigned.key', 'utf8');
+var certificate = fs.readFileSync('./cert/selfsigned.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
 
 const { app } = require("./app");
 var package = require('../package.json');
 
 require('dotenv').config()
 
-var listener = app.listen(process.env.SERVER_PORT);
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
 
-if(listener.address() != null) {
+var httpListener = httpServer.listen(process.env.HTTP_SERVER_PORT);
+var httpsListener = httpsServer.listen(process.env.HTTPS_SERVER_PORT);
+
+if(httpListener.address() != null && httpsListener.address() != null) {
     db.start().then(() => {
         console.log('  ')
         console.log(' MetaMath - Portales - Backend')
